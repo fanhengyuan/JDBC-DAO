@@ -23,7 +23,7 @@ public class StudentDaoTest {
     @Test
     public void get() {
         IStudentDao dao = new StudentDaoImpl();
-        Student stu = dao.get(4);
+        Student stu = dao.get(1);
         System.out.println(stu);
     }
 
@@ -37,16 +37,16 @@ public class StudentDaoTest {
     @Test
     public void update() {
         Student stu = new Student();
-        stu.setName("鲁班");
+        stu.setName("花木兰");
         stu.setAge(7);
 
         IStudentDao dao = new StudentDaoImpl();
-        dao.update(0, stu);
+        dao.update(5, stu);
     }
 
     @Test
     public void delete() {
         IStudentDao dao = new StudentDaoImpl();
-        dao.delete(3);
+        dao.delete(5);
     }
 }
