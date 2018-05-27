@@ -20,7 +20,7 @@ import java.sql.SQLException;
  */
 public class TransactionTest  {
     @Test
-    void Test() {
+    public void Test() {
         /**
          * zs 转1000块钱给 ls
          * 1.检查 zs 账户余额
@@ -42,7 +42,7 @@ public class TransactionTest  {
                 throw new RuntimeException("zs没钱了");
             }
 
-            // 2.减少 zs 账户
+            // 2.减少  zs 账户
             sql = "update account set money = money - ? where name = ?;";
             System.out.println("事务开启--");
             conn.setAutoCommit(false); // 开启事物
