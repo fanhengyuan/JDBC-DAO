@@ -19,11 +19,11 @@ public class ProcedureTest {
         // 1.连接数据库
         Connection conn = JDBCUtil.getConnection();
         // 2.调用存储过程
-        CallableStatement cs = conn.prepareCall("{ call getStu(?) }");
+        CallableStatement ps = conn.prepareCall("{ call getStu(?) }");
         // 3.设置参数
-        cs.setString(1, "鲁班22");
+        ps.setString(1, "鲁班22");
         // 4.执行存储过程
-        ResultSet rs = cs.executeQuery();
+        ResultSet rs = ps.executeQuery();
         if(rs.next()) {
             Student stu = new Student();
             stu.setId(rs.getInt("id"));
@@ -31,7 +31,7 @@ public class ProcedureTest {
             stu.setAge(rs.getInt("age"));
             System.out.println(stu);
         }
-        JDBCUtil.close(conn, null, rs);
+        JDBCUtil.close(conn, ps, rs);
     }
 
     /**
@@ -47,13 +47,13 @@ public class ProcedureTest {
         // 1.连接数据库
         Connection conn = JDBCUtil.getConnection();
         // 2.调用存储过程
-        CallableStatement cs = conn.prepareCall("{ call getName(?, ?) }");
+        CallableStatement ps = conn.prepareCall("{ call getName(?, ?) }");
         // 3.设置参数
-        cs.setInt(1, 1);
-        cs.registerOutParameter(2, Types.VARCHAR);
-        cs.execute();
-        String name = cs.getString(2);
+        ps.setInt(1, 1);
+        ps.registerOutParameter(2, Types.VARCHAR);
+        ps.execute();
+        String name = ps.getString(2);
         System.out.println(name);
-        JDBCUtil.close(conn, null, null);
+        JDBCUtil.close(conn, ps, null);
     }
 }
