@@ -24,5 +24,6 @@
     <orderEntry type="library" name="dbcp" level="project" />
     <orderEntry type="library" name="logging" level="project" />
     <orderEntry type="library" name="pool" level="project" />
+    <orderEntry type="library" name="druid" level="project" />
   </component>
 </module>

@@ -1,8 +1,11 @@
 package com.aiti.jdbc.util;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbcp2.BasicDataSourceFactory;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
+
+import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +14,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class JDBCUtil {
-    public static BasicDataSource ds = null;
+    public static DataSource ds = null;
     // 静态代码块 只执行一次
     static {
         // 1.加载驱动
@@ -19,7 +22,10 @@ public class JDBCUtil {
             Properties p = new Properties();
             FileInputStream in = new FileInputStream("resource/db.properties");
             p.load(in);
-            ds = BasicDataSourceFactory.createDataSource(p);
+            // 使用 DBCP 连接池
+//            ds = BasicDataSourceFactory.createDataSource(p);
+            // 使用 druid 连接池
+            ds = DruidDataSourceFactory.createDataSource(p);
         }catch (Exception e){
             e.printStackTrace();
         }
