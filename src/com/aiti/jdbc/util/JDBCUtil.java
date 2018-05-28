@@ -1,21 +1,27 @@
 package com.aiti.jdbc.util;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class JDBCUtil {
-    public static String url = "jdbc:mysql://127.0.0.1:3306/jdbc_db";
+    public static String url = "jdbc:mysql://127.0.0.1:3306/jdbc_db?useSSL=false";
     public static String user = "root";
     public static String password = "123456";
-    public static String driverName = "com.mysql.jdbc.Driver";
-
+    public static String driverName = "com.mysql.cj.jdbc.Driver";
+    public static BasicDataSource ds = null;
     // 静态代码块 只执行一次
     static {
         // 1.加载驱动
         try{
-            Class.forName(JDBCUtil.driverName);
+            ds = new BasicDataSource();
+            ds.setDriverClassName(driverName);
+            ds.setUsername(user);
+            ds.setPassword(password);
+            ds.setUrl(url);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -24,7 +30,9 @@ public class JDBCUtil {
     public static Connection getConnection() {
         try{
             // 2.连接 Mysql
-            return DriverManager.getConnection(JDBCUtil.url, JDBCUtil.user, JDBCUtil.password);
+//            return DriverManager.getConnection(JDBCUtil.url, JDBCUtil.user, JDBCUtil.password);
+            // DBCP 连接池
+            return ds.getConnection();
         }catch (Exception e){
             e.printStackTrace();
         }
