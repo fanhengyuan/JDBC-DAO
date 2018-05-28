@@ -1,18 +1,12 @@
 package com.aiti.jdbc.test;
 
 import com.aiti.jdbc.util.JDBCUtil;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.Test;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import static com.aiti.jdbc.util.JDBCUtil.getConnection;
-
 public class DBCPTest {
-
-
     @Test
     public void test() {
         Connection conn = null;

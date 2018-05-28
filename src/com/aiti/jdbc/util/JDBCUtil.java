@@ -1,27 +1,25 @@
 package com.aiti.jdbc.util;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSourceFactory;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class JDBCUtil {
-    public static String url = "jdbc:mysql://127.0.0.1:3306/jdbc_db?useSSL=false";
-    public static String user = "root";
-    public static String password = "123456";
-    public static String driverName = "com.mysql.cj.jdbc.Driver";
     public static BasicDataSource ds = null;
     // 静态代码块 只执行一次
     static {
         // 1.加载驱动
         try{
-            ds = new BasicDataSource();
-            ds.setDriverClassName(driverName);
-            ds.setUsername(user);
-            ds.setPassword(password);
-            ds.setUrl(url);
+            Properties p = new Properties();
+            FileInputStream in = new FileInputStream("resource/db.properties");
+            p.load(in);
+            ds = BasicDataSourceFactory.createDataSource(p);
         }catch (Exception e){
             e.printStackTrace();
         }
