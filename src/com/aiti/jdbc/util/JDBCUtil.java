@@ -1,14 +1,10 @@
 package com.aiti.jdbc.util;
 
-
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-
 
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
@@ -35,7 +31,7 @@ public class JDBCUtil {
         try{
             // 2.连接 Mysql
 //            return DriverManager.getConnection(JDBCUtil.url, JDBCUtil.user, JDBCUtil.password);
-            // DBCP 连接池
+            // 连接池
             return ds.getConnection();
         }catch (Exception e){
             e.printStackTrace();

@@ -12,7 +12,7 @@ public class StudentDaoTest {
     public void save() {
         System.out.println("Test");
         Student stu = new Student();
-        stu.setName("ls");
+        stu.setName("加油↖(^ω^)↗");
         stu.setAge(21);
 
         // 保存数据
@@ -41,12 +41,12 @@ public class StudentDaoTest {
         stu.setAge(7);
 
         IStudentDao dao = new StudentDaoImpl();
-        dao.update(5, stu);
+        dao.update(6, stu);
     }
 
     @Test
     public void delete() {
         IStudentDao dao = new StudentDaoImpl();
-        dao.delete(5);
+        dao.delete(12);
     }
 }
