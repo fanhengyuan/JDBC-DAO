@@ -1,13 +1,10 @@
 package com.aiti.jdbc.util;
 
-import com.aiti.jdbc.domain.Student;
 import com.aiti.jdbc.handler.IResultSetHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CRUDTemplate {
     public static int executeUpdate(String sql, Object...params) {
@@ -34,13 +31,11 @@ public class CRUDTemplate {
         return 0;
     }
 
-    public static List<Student> executeQuery(String sql, IResultSetHandler rh, Object... params) {
+    public static <T>T executeQuery(String sql, IResultSetHandler<T> rh, Object... params) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        // 集合存储信息
-        List list = new ArrayList();
         try {
             conn = JDBCUtil.getConnection();
             ps = conn.prepareStatement(sql);
@@ -52,12 +47,11 @@ public class CRUDTemplate {
             rs = ps.executeQuery();
 
             // 处理结果集
-            list = rh.handle(rs);
+             return rh.handle(rs);
 
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-        return list;
+        return null;
     }
 }

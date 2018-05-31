@@ -31,7 +31,7 @@ public class StudentDaoImpl implements IStudentDao {
     @Override
     public Student get(int id) {
         String sql = "select * from student where id =?;";
-        IResultSetHandler rh = new StuResultSetHardImp();
+        IResultSetHandler<List<Student>> rh = new StuResultSetHardImp();
         List<Student> list = CRUDTemplate.executeQuery(sql, rh, id);
         return list.size() == 1 ? list.get(0) : null;
     }
@@ -44,9 +44,9 @@ public class StudentDaoImpl implements IStudentDao {
 }
 
 /*
- *处理结果集实现
+ *结果集处理器实现
  */
-class StuResultSetHardImp implements IResultSetHandler{
+class StuResultSetHardImp implements IResultSetHandler <List<Student>>{
     @Override
     public List handle(ResultSet rs) throws Exception {
         List<Student> list = new ArrayList<>();
