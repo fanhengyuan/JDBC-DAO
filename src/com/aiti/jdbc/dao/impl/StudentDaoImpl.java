@@ -2,8 +2,11 @@ package com.aiti.jdbc.dao.impl;
 
 import com.aiti.jdbc.dao.IStudentDao;
 import com.aiti.jdbc.domain.Student;
+import com.aiti.jdbc.handler.IResultSetHandler;
 import com.aiti.jdbc.util.CRUDTemplate;
+import java.sql.ResultSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDaoImpl implements IStudentDao {
@@ -28,13 +31,32 @@ public class StudentDaoImpl implements IStudentDao {
     @Override
     public Student get(int id) {
         String sql = "select * from student where id =?;";
-        List<Student>  list = CRUDTemplate.executeQuery(sql, id);
+        IResultSetHandler rh = new StuResultSetHardImp();
+        List<Student> list = CRUDTemplate.executeQuery(sql, rh, id);
         return list.size() == 1 ? list.get(0) : null;
     }
 
     @Override
     public List<Student> getAll() {
         String sql = "select * from student;";
-        return CRUDTemplate.executeQuery(sql);
+        return CRUDTemplate.executeQuery(sql, new StuResultSetHardImp());
+    }
+}
+
+/*
+ *处理结果集实现
+ */
+class StuResultSetHardImp implements IResultSetHandler{
+    @Override
+    public List handle(ResultSet rs) throws Exception {
+        List<Student> list = new ArrayList<>();
+        while (rs.next()) {
+            Student stu = new Student();
+            stu.setName(rs.getString("name"));
+            stu.setAge(rs.getInt("age"));
+            stu.setId(rs.getInt("id"));
+            list.add(stu);
+        }
+        return list;
     }
 }

@@ -1,6 +1,7 @@
 package com.aiti.jdbc.util;
 
 import com.aiti.jdbc.domain.Student;
+import com.aiti.jdbc.handler.IResultSetHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,13 +34,13 @@ public class CRUDTemplate {
         return 0;
     }
 
-    public static List<Student> executeQuery(String sql, Object... params) {
+    public static List<Student> executeQuery(String sql, IResultSetHandler rh, Object... params) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        // 集合存储学生信息
-        List<Student> list = new ArrayList<>();
+        // 集合存储信息
+        List list = new ArrayList();
         try {
             conn = JDBCUtil.getConnection();
             ps = conn.prepareStatement(sql);
@@ -50,13 +51,9 @@ public class CRUDTemplate {
 
             rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Student stu = new Student();
-                stu.setName(rs.getString("name"));
-                stu.setAge(rs.getInt("age"));
-                stu.setId(rs.getInt("id"));
-                list.add(stu);
-            }
+            // 处理结果集
+            list = rh.handle(rs);
+
         }catch (Exception e) {
             e.printStackTrace();
         }
