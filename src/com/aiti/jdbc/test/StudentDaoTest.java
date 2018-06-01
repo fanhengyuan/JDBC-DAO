@@ -49,4 +49,10 @@ public class StudentDaoTest {
         IStudentDao dao = new StudentDaoImpl();
         dao.delete(12);
     }
+
+    @Test
+    public void getCount() {
+        IStudentDao dao = new StudentDaoImpl();
+        System.out.println(dao.getCount());
+    }
 }

@@ -2,6 +2,7 @@ package com.aiti.jdbc.dao.impl;
 
 import com.aiti.jdbc.dao.IStudentDao;
 import com.aiti.jdbc.domain.Student;
+import com.aiti.jdbc.handler.BeanHandler;
 import com.aiti.jdbc.handler.IResultSetHandler;
 import com.aiti.jdbc.util.CRUDTemplate;
 import java.sql.ResultSet;
@@ -32,8 +33,10 @@ public class StudentDaoImpl implements IStudentDao {
     public Student get(int id) {
         String sql = "select * from student where id =?;";
         IResultSetHandler<List<Student>> rh = new StuResultSetHardImp();
-        List<Student> list = CRUDTemplate.executeQuery(sql, rh, id);
-        return list.size() == 1 ? list.get(0) : null;
+/*        List<Student> list = CRUDTemplate.executeQuery(sql, rh, id);
+        return list.size() == 1 ? list.get(0) : null;*/
+        // 使用通用结果集处理器
+        return CRUDTemplate.executeQuery(sql, new BeanHandler<Student>(Student.class), id);
     }
 
     @Override
@@ -41,10 +44,16 @@ public class StudentDaoImpl implements IStudentDao {
         String sql = "select * from student;";
         return CRUDTemplate.executeQuery(sql, new StuResultSetHardImp());
     }
+
+    @Override
+    public Integer getCount() {
+        String sql = "select count(*) as count from student;";
+        return CRUDTemplate.executeQuery(sql, new StuCountResultSetIml());
+    }
 }
 
 /*
- *结果集处理器实现
+ * 结果集处理器实现
  */
 class StuResultSetHardImp implements IResultSetHandler <List<Student>>{
     @Override
@@ -58,5 +67,16 @@ class StuResultSetHardImp implements IResultSetHandler <List<Student>>{
             list.add(stu);
         }
         return list;
+    }
+}
+
+// 数量
+class StuCountResultSetIml implements IResultSetHandler<Integer>{
+    @Override
+    public Integer handle(ResultSet rs) throws Exception {
+        if(rs.next()) {
+            return rs.getInt("count");
+        }
+        return 0;
     }
 }
